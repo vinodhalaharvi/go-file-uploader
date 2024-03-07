@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload & Image Preview</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<script src="/static/js/main.js?timestamp=20230315"></script>
+<div class="upload-container">
+    <div class="drop-area" id="drop-area">
+        <div class="icon-container">
+            <i class="fas fa-cloud-upload-alt fa-4x"></i>
+        </div>
+        <p>Select a file or drag here</p>
+        <button class="button" onclick="document.getElementById('file-input').click()">Select a file</button>
+        <input type="file" id="file-input" hidden onchange="uploadFile()" multiple>
+    </div>
+</div>
+</body>
+</html>
