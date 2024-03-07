@@ -1,21 +1,30 @@
 // This function should be responsible for the actual file upload logic
-function uploadFile(file) {
+function uploadFile() {
+    const files = document.getElementById('file-input').files;
     const formData = new FormData();
-    formData.append('file', file); // Use the 'file' from the parameter
-    console.log(file); // Log the file object for debugging
+    Array.from(files).forEach(file => {
+        console.log(file);
+        formData.append('files', file);
+    });
+
 
     fetch('/upload', {
-        method: 'POST',
-        body: formData
+        method: 'POST', body: formData
     })
         .then(response => response.json())
         .then(data => {
             const uploadedFiles = document.getElementById('uploaded-files');
             const preview = document.createElement('div');
-            preview.innerHTML = `<img src="${data.file}" width="100" height="100">`; // Make sure the data.file corresponds to a valid URL
-            uploadedFiles.appendChild(preview);
+            data.files.forEach(file => {
+                // Create a new preview element for each file
+                const filePreview = document.createElement('div');
+                filePreview.innerHTML = `<img src="/static/${file.Filename}" width="100" height="100">`; // Adjust the path as needed
+                uploadedFiles.appendChild(filePreview);
+            });                // preview.innerHTML = `<img src="/static/${data.files}" width="100" height="100">`; // Make sure the data.file corresponds to a valid URL
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Upload error:', error);
+        });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -61,8 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         fetch('/upload', {
-            method: 'POST',
-            body: formData
+            method: 'POST', body: formData
         })
             .then(response => response.json())
             .then(data => {
