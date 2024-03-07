@@ -36,16 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     ['dragenter', 'dragover'].forEach(eventName => {
+        console.log(eventName)
         dropArea.addEventListener(eventName, () => dropArea.classList.add('active'), false);
     });
 
     ['dragleave', 'drop'].forEach(eventName => {
+        console.log(eventName)
         dropArea.addEventListener(eventName, () => dropArea.classList.remove('active'), false);
     });
 
     dropArea.addEventListener('drop', handleDrop, false);
 
     function handleDrop(e) {
+        console.log('handleDrop')
         const dt = e.dataTransfer;
         const files = dt.files;
 
