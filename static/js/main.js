@@ -48,17 +48,41 @@ document.addEventListener('DOMContentLoaded', () => {
     dropArea.addEventListener('drop', handleDrop, false);
 
     function handleDrop(e) {
-        console.log('handleDrop')
         const dt = e.dataTransfer;
         const files = dt.files;
-
+        console.log(files)
         handleFiles(files);
     }
 
     function handleFiles(files) {
-        ([...files]).forEach(file => {
-            uploadFile(file);
+        const formData = new FormData();
+        [...files].forEach(file => {
+            formData.append('files', file); // 'files' to match the form key expected by Gin
         });
+
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                // also show in the UI
+                const uploadedFiles = document.getElementById('uploaded-files');
+                const preview = document.createElement('div');
+                // for each data.files
+                // do this
+                data.files.forEach(file => {
+                    preview.innerHTML = `<img src="/static/${file.Filename}" width="100" height="100">`; // Make sure the data.file corresponds to a valid URL
+                    uploadedFiles.appendChild(preview);
+                })
+                // preview.innerHTML = `<img src="/static/${data.files}" width="100" height="100">`; // Make sure the data.file corresponds to a valid URL
+                // uploadedFiles.appendChild(preview);
+                // console.log('Upload successful:', data);
+
+            })
+            .catch(error => {
+                console.error('Upload error:', error);
+            });
     }
 });
 
