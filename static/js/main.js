@@ -66,19 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.json())
             .then(data => {
-                // also show in the UI
                 const uploadedFiles = document.getElementById('uploaded-files');
                 const preview = document.createElement('div');
-                // for each data.files
-                // do this
                 data.files.forEach(file => {
-                    preview.innerHTML = `<img src="/static/${file.Filename}" width="100" height="100">`; // Make sure the data.file corresponds to a valid URL
-                    uploadedFiles.appendChild(preview);
-                })
-                // preview.innerHTML = `<img src="/static/${data.files}" width="100" height="100">`; // Make sure the data.file corresponds to a valid URL
-                // uploadedFiles.appendChild(preview);
-                // console.log('Upload successful:', data);
-
+                    // Create a new preview element for each file
+                    const filePreview = document.createElement('div');
+                    filePreview.innerHTML = `<img src="/static/${file.Filename}" width="100" height="100">`; // Adjust the path as needed
+                    uploadedFiles.appendChild(filePreview);
+                });                // preview.innerHTML = `<img src="/static/${data.files}" width="100" height="100">`; // Make sure the data.file corresponds to a valid URL
             })
             .catch(error => {
                 console.error('Upload error:', error);
